@@ -30,7 +30,6 @@ public class Building : MonoBehaviour
                 Vector3 newBuild = new Vector3(pMove.sittingPlatform.transform.position.x + (unit * newPlatformPosition.x), pMove.sittingPlatform.transform.position.y + (unit * newPlatformPosition.y), 0f);
                 Instantiate(buildPlatform, newBuild, Quaternion.identity);
 
-
                 resetBuilding();
             }
         }
@@ -41,11 +40,12 @@ public class Building : MonoBehaviour
         Vector3 origin = new Vector3(transform.position.x + (1.2f * pMove.inputX), transform.position.y + (1.2f * pMove.inputY), 0f);
         Vector3 direction = new Vector3(pMove.inputX, pMove.inputY, 0f);
 
-        RaycastHit2D hit = Physics2D.Raycast(direction, origin, 0f);
+        RaycastHit2D hit = Physics2D.Raycast(origin, direction, 0f);
         Debug.DrawRay(origin, direction, Color.red, 1.0f);
+        
 
-        if (hit.collider == null) configBuildingInfo(); 
-        else resetBuilding();
+        if (hit.collider != null) resetBuilding(); 
+        else configBuildingInfo();
 
 
     }
@@ -54,6 +54,8 @@ public class Building : MonoBehaviour
     {
         build = true;
         newPlatformPosition = new Vector3(pMove.inputX, pMove.inputY, 0f);
+
+        Debug.Log("Hello World");
     }
 
     void resetBuilding()
