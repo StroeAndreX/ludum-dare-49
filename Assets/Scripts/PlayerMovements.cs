@@ -13,13 +13,15 @@ public class PlayerMovements : MonoBehaviour
     public int inputX { get; set; } 
     public int inputY { get; set; }
 
+    public GameObject sittingPlatform; 
+
     // Update is called once per frame
     void Update()
     {
-        int _kCodeA = -Convert.ToInt16(Input.GetKey(KeyCode.A));
-        int _kCodeD = Convert.ToInt16(Input.GetKey(KeyCode.D));
-        int _kCodeW = Convert.ToInt16(Input.GetKey(KeyCode.W));
-        int _kCodeS = -Convert.ToInt16(Input.GetKey(KeyCode.S));
+        int _kCodeA = -Convert.ToInt16(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow));
+        int _kCodeD = Convert.ToInt16(Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow));
+        int _kCodeW = Convert.ToInt16(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow));
+        int _kCodeS = -Convert.ToInt16(Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow));
 
         inputX = (_kCodeA + _kCodeD);
         inputY = (_kCodeW + _kCodeS);
@@ -35,7 +37,11 @@ public class PlayerMovements : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(transform.position, rayCast, 10.0f);
         Debug.DrawRay(transform.position, rayCast,  Color.green, 10.0f);
 
-        if (hit.collider.tag == "Platform") return true;
+        if (hit.collider.tag == "Platform")
+        {
+            sittingPlatform = hit.collider.gameObject;
+            return true;
+        }
         else return false;
     }
 
