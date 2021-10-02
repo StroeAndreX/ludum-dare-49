@@ -20,9 +20,9 @@ Every new day tge arena is going to incontrollably destroy by itself.
 
 Goal:: Become so powerful that you can build the whole arena to be fully stable :
 
-[] Player Movements
+[x] Player Movements
 [] RigidBodies
-[] Camera following
+[x] Camera following
 [] Attack similar to UNITE
 [] Building new Platforms
 [] Platforms have to have % of failure  
