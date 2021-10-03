@@ -39,7 +39,7 @@ public class PlayerMovements : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(origin, direction, 0.0f);
         Debug.DrawRay(origin, direction,  Color.green, 1.0f);
 
-        if (hit.collider.tag == "Platform")
+        if (hit.collider.tag == "Platform" || hit.collider.tag == "Homebase")
         {
             sittingPlatform = hit.collider.gameObject;
             return true;

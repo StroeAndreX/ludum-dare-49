@@ -21,36 +21,34 @@ public class HomeBase : MonoBehaviour
         Debug.Log("costForPurification: " + purificationPrice.ToString());
     }
 
-    float setPowerUpCost() => powerUpPrice + (homebaseLevel * powerUpPrice);
+    float SetPowerUpCost() => powerUpPrice + (homebaseLevel * powerUpPrice);
 
-    float setPurificationPrice() => levelOfToxicity * ((purificationPrice * 2) / homebaseLevel);
+    float SetPurificationPrice() => levelOfToxicity * ((purificationPrice * 2) / homebaseLevel);
 
-    float setLevelOfToxicity() => (percentOfInfection / Random.Range(1, 6)) / homebaseLevel;
+    float SetLevelOfToxicity() => (percentOfInfection / Random.Range(1, 6)) / homebaseLevel;
 
-    void nextDay() => levelOfToxicity += setLevelOfToxicity();
+    void IncrementToxicity() => levelOfToxicity += SetLevelOfToxicity();
 
-    public float damageToPlayer() => (levelOfToxicity / homebaseLevel);
+    public float DamageToPlayer() => (levelOfToxicity / homebaseLevel);
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.C))
         {
             homebaseLevel += 1;
-            powerUpPrice = setPowerUpCost();
-        }
-        if (Input.GetKeyDown(KeyCode.Y))
-        {
-            nextDay();
-            setPurificationPrice();
+            powerUpPrice = SetPowerUpCost();
         }
 
         if(Input.GetKeyDown(KeyCode.P))
         {
             levelOfToxicity = 0f; 
         }
+    }
 
-        // if(Input.anyKeyDown) DebugDisplay();
-
-
+    public void NextDay()
+    {
+        IncrementToxicity();
+        SetPurificationPrice();
     }
 }
+

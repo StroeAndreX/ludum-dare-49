@@ -25,6 +25,6 @@ public class PlayerMoney : MonoBehaviour
 
     public void transformPlatform()
     {
-        pMove.sittingPlatform.GetComponent<Platform>().transformPlatform(Platform.Type.Mine);
+        pMove.sittingPlatform.GetComponent<Platform>().TransformPlatform(Platform.Type.Mine);
     }
 }
