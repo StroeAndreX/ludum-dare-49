@@ -4,10 +4,9 @@ using System.Collections;
 public class PlayerPower : MonoBehaviour
 {
     PlayerMovements pMove = new PlayerMovements();
-    SpriteRenderer renderer;
     [SerializeField] Sprite sprite;
-    GameObject createdObject;
     GameObject powerRadiusMouse;
+    GameObject powerRadius;
 
     private void Start()
     {
@@ -31,9 +30,8 @@ public class PlayerPower : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Z))
         {
             // Vector3 playerPos = new Vector3(transform.position.x, transform.position.y, 0f);
-            GameObject powerRadius = new GameObject("PowerRadius");
+            powerRadius = new GameObject("PowerRadius");
             powerRadius.AddComponent<SpriteRenderer>().sprite = sprite;
-            createdObject = powerRadius;
 
             // Draw circle
             powerRadiusMouse = new GameObject("PowerRadiusMouse");
@@ -51,8 +49,14 @@ public class PlayerPower : MonoBehaviour
             lineRenderer.SetPosition(0, transform.position);
             lineRenderer.SetPosition(1, mousePos);
 
-            powerRadiusMouse.transform.position = new Vector3(mousePos.x, mousePos.y, -.1f); 
-      
+            // Check the distance between circle and player
+            float dist = Vector3.Distance(mousePos, transform.position);
+            print("Distance to other: " + dist);
+
+            /// Circle that follow the mouse
+            if(dist < 10.55f) powerRadiusMouse.transform.position = new Vector3(mousePos.x, mousePos.y, -.1f);
+            powerRadius.transform.position = new Vector3(transform.position.x, transform.position.y, -.09f);
+
             if (Input.GetMouseButtonDown(0) && IsWalkableZone(hit))
             {
                 transform.position = new Vector3(mousePos.x, mousePos.y, 0f);
@@ -62,7 +66,7 @@ public class PlayerPower : MonoBehaviour
 
         if(Input.GetKeyUp(KeyCode.Z))
         {
-            Destroy(createdObject);
+            Destroy(powerRadius);
             Destroy(powerRadiusMouse);
 
             lineRenderer.positionCount = 0; 

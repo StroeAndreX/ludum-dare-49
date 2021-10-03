@@ -32,10 +32,12 @@ public class PlayerMovements : MonoBehaviour
     }
 
     bool RayHitWithPlatform() {
-        Vector3 rayCast = new Vector3(0.3f * inputX, 0.3f * inputY, 0); 
+        //Vector3 rayCast = new Vector3(0.3f * inputX, 0.3f * inputY, 0);
+        Vector3 origin = new Vector3(transform.position.x + (0.1f * inputX), transform.position.y + (0.1f * inputY), 0f);
+        Vector3 direction = new Vector3(0.1f * inputX, 0.1f * inputY, 0f);
 
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, rayCast, 10.0f);
-        Debug.DrawRay(transform.position, rayCast,  Color.green, 10.0f);
+        RaycastHit2D hit = Physics2D.Raycast(origin, direction, 0.0f);
+        Debug.DrawRay(origin, direction,  Color.green, 1.0f);
 
         if (hit.collider.tag == "Platform")
         {
