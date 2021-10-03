@@ -21,8 +21,30 @@ Every new day tge arena is going to incontrollably destroy by itself.
 Goal:: Become so powerful that you can build the whole arena to be fully stable :
 
 [x] Player Movements
-[] RigidBodies
+[x] RigidBodies
 [x] Camera following
 [] Attack similar to UNITE
-[] Building new Platforms
+[x] Building new Platforms
 [] Platforms have to have % of failure  
+
+#### List of things to do next... in order
+
+- HomeBase [Infection level, Can Purify, Can Shop]
+* Also the function to tp
+
+
+- Coin Currency [Instability, and exchange to real money]
+
+- Platform [Type of Platform, Instability, Destruction and other bad things]
+ 
+- Days and what changes
+
+- Gui [Shop, Game] 
+
+- Harvest, Mining, and Power Up Them
+
+- Attack And Mobs
+
+- Better UI And Pause
+
+- Graphics 
