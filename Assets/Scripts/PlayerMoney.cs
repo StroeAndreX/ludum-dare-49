@@ -7,6 +7,12 @@ public class PlayerMoney : MonoBehaviour
     public Currency currency;
     PlayerMovements pMove = new PlayerMovements();
 
+    private bool buyMode = false;
+    public GameObject selectedPlatform;
+
+    [SerializeField] private GameObject options;
+    private GameObject createOptions;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,8 +25,35 @@ public class PlayerMoney : MonoBehaviour
     {
         Debug.Log(currency.conversion());
 
-        if(Input.GetKeyDown(KeyCode.Q)) currency.changeCryptoValue();
-        if (Input.GetKeyDown(KeyCode.P)) transformPlatform(); 
+        if (Input.GetKeyDown(KeyCode.Q)) currency.changeCryptoValue();
+        if (Input.GetKeyDown(KeyCode.P)) transformPlatform();
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            RaycastHit2D mouseHit = Physics2D.Raycast(worldPosition, Vector3.zero);
+
+            if(mouseHit.collider != null)
+            {
+                if(mouseHit.collider.tag == "Platform")
+                {
+                    selectedPlatform = mouseHit.collider.gameObject; 
+                    options.SetActive(true);
+                    options.transform.position = new Vector3(selectedPlatform.transform.position.x, selectedPlatform.transform.position.y + 1f, options.transform.position.z); // Instantiate(createOptions, selectedPlatform.transform.position, Quaternion.identity); 
+
+                    buyMode = true;
+                } 
+            }
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            buyMode = false;
+            selectedPlatform = null;
+
+            options.SetActive(false);
+            Destroy(createOptions);
+        }
     }
 
     public void transformPlatform()
