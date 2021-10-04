@@ -46,8 +46,13 @@ public class PlayerMovements : MonoBehaviour
             repairPlatform(); 
         }
         else if(sittingPlatform != null && sittingPlatform.tag == "Homebase")
+      
         {
+            // PowerUp HomeBase
+            levelUpHomebase();
 
+            // Repair HomeBase
+            purifyHomebase();
         }
     }
 
@@ -72,7 +77,7 @@ public class PlayerMovements : MonoBehaviour
         Platform platform = sittingPlatform.GetComponent<Platform>();
         PlayerMoney playerMoney = this.GetComponent<PlayerMoney>();
 
-        if(Input.GetKeyDown(KeyCode.Q))
+        if(Input.GetKeyDown(KeyCode.Q) && playerMoney.currency.conversion() > 0.25f)
         {
             platform.levelOfRisk -= 20;
             if (platform.levelOfRisk < 0) platform.levelOfRisk = 0;
@@ -87,7 +92,7 @@ public class PlayerMovements : MonoBehaviour
         Platform platform = sittingPlatform.GetComponent<Platform>();
         PlayerMoney playerMoney = this.GetComponent<PlayerMoney>();
 
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.E) && playerMoney.currency.conversion() > (0.50f * platform.levelOfStability))
         {
             platform.levelOfStability++;
 
@@ -100,9 +105,13 @@ public class PlayerMovements : MonoBehaviour
         HomeBase homeBase = sittingPlatform.GetComponent<HomeBase>();
         PlayerMoney playerMoney = this.GetComponent<PlayerMoney>();
 
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q) && playerMoney.currency.conversion() > homeBase.purificationPrice)
         {
-            homeBase.
+            float price = homeBase.purificationPrice; 
+            playerMoney.buyThings(price);
+
+            homeBase.levelOfToxicity = 0;
+            
         }
         
     }
@@ -111,6 +120,15 @@ public class PlayerMovements : MonoBehaviour
     {
         HomeBase homeBase = sittingPlatform.GetComponent<HomeBase>();
         PlayerMoney playerMoney = this.GetComponent<PlayerMoney>();
+
+        if (Input.GetKeyDown(KeyCode.E) && playerMoney.currency.conversion() > homeBase.SetPowerUpCost())
+        {
+            float price = homeBase.SetPowerUpCost(); 
+            playerMoney.buyThings(price);
+
+            homeBase.homebaseLevel++;
+
+        }
     }
     
 }

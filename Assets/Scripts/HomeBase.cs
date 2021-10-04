@@ -7,10 +7,10 @@ public class HomeBase : MonoBehaviour
     public float levelOfToxicity = 0.4f;
     public int homebaseLevel = 1;
 
-    private float powerUpPrice = 55f;
+    private float powerUpPrice = 5.5f;
     private int percentOfInfection = 75;
 
-    private float purificationPrice = 10f;
+    public float purificationPrice = 0.5f;
 
     /// <summary>
     ///  Sprite / Graphics
@@ -34,28 +34,30 @@ public class HomeBase : MonoBehaviour
         Debug.Log("costForPurification: " + purificationPrice.ToString());
     }
 
-    float SetPowerUpCost() => powerUpPrice + (homebaseLevel * powerUpPrice);
+    public float SetPowerUpCost() => powerUpPrice + (homebaseLevel * powerUpPrice);
 
-    float SetPurificationPrice() => levelOfToxicity * ((purificationPrice * 2) / homebaseLevel);
+    public float SetPurificationPrice() => levelOfToxicity * ((purificationPrice * 2) / homebaseLevel);
 
     float SetLevelOfToxicity() => (percentOfInfection / Random.Range(1, 6)) / homebaseLevel;
 
-    void IncrementToxicity() => levelOfToxicity += SetLevelOfToxicity();
+    public void IncrementToxicity() => levelOfToxicity += SetLevelOfToxicity();
+
+    public void levelUp() => homebaseLevel++;
 
     public float DamageToPlayer() => (levelOfToxicity / homebaseLevel);
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            homebaseLevel += 1;
-            powerUpPrice = SetPowerUpCost();
-        }
+        //if (Input.GetKeyDown(KeyCode.C))
+        //{
+        //    homebaseLevel += 1;
+        //    powerUpPrice = SetPowerUpCost();
+        //}
 
-        if(Input.GetKeyDown(KeyCode.P))
-        {
-            levelOfToxicity = 0f; 
-        }
+        //if(Input.GetKeyDown(KeyCode.P))
+        //{
+        //    levelOfToxicity = 0f; 
+        //}
 
         if (homebaseLevel <= 2) spriteRenderer.sprite = imageIndexes[0];
         else if(homebaseLevel > 2 && homebaseLevel <= 4) spriteRenderer.sprite = imageIndexes[1];
