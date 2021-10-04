@@ -59,7 +59,7 @@ public class PlayerPower : MonoBehaviour
 
             if (Input.GetMouseButtonDown(0) && IsWalkableZone(hit))
             {
-                transform.position = new Vector3(mousePos.x, mousePos.y, 0f);
+                if (dist < 10.55f) transform.position = new Vector3(mousePos.x, mousePos.y, 0f);
                 Debug.Log("With great power comes great responsabilities");
             }
         }
@@ -76,7 +76,7 @@ public class PlayerPower : MonoBehaviour
 
     private bool IsWalkableZone(RaycastHit2D hit)
     {
-        if (hit.collider.tag == "Platform") return true; 
+        if (hit.collider.tag == "Platform" || hit.collider.tag == "Homebase") return true; 
 
         return false;
     }

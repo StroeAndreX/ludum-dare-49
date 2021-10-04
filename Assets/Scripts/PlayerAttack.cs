@@ -28,12 +28,12 @@ public class PlayerAttack : MonoBehaviour
 
     private void Update()
     {
-        if(enemy != null) ArcMove(transform.position, enemy.position, 1f);
+        ArcMove(transform.position, enemy.position, 1f);
     }
 
     Transform GetClosestEnemy()
     {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Obstacle");
 
         Transform tMin = null;
         float minDist = Mathf.Infinity;
@@ -53,10 +53,18 @@ public class PlayerAttack : MonoBehaviour
         return tMin;
     }
 
-
-    // 
-    private void OnTriggerEnter2D(Collider2D other)
+    Color origionalColor;
+    public SpriteRenderer SpriteRenderer;
+    void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Enemy") Destroy(this.gameObject);
+        if (other.tag == "Enemy" || other.tag == "Obstacle")
+        {
+            foreach(GameObject bullet in GameObject.FindGameObjectsWithTag("Bullet")) Destroy(bullet);
+            other.GetComponent<Obstacles>().hp -= Random.Range(3.3f, 30.5f);
+        }
     }
+
+
+
+
 }

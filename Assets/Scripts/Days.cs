@@ -12,13 +12,17 @@ public class Days : MonoBehaviour
     private List<Platform> platforms;
 
     // Days passed...
-    public int days = 0; 
+    public int days = 0;
+    int seconds = 0;
+
+    PlayerMoney playerMoney = new PlayerMoney(); 
+   
 
     // Start is called before the first frame update
     void Start()
     {
         platforms = new List<Platform>();
-
+        playerMoney = GameObject.Find("player").GetComponent<PlayerMoney>(); 
         GameObject[] platformsObjects = GameObject.FindGameObjectsWithTag("Platform");
         foreach(GameObject platform in platformsObjects)
         {
@@ -27,6 +31,9 @@ public class Days : MonoBehaviour
         }
 
         homeBase = GameObject.Find("HomeBase").GetComponent<HomeBase>();
+  
+        InvokeRepeating("TimeUntilNewDay", 1f, 1f);  //1s delay, repeat every 1s
+     
     }
 
     // Update is called once per frame
@@ -46,7 +53,7 @@ public class Days : MonoBehaviour
         days++; 
         foreach (Platform platform in platforms)
         {
-            platform.NewDay();
+        //    platform.NewDay();
             
         }
 
@@ -61,6 +68,14 @@ public class Days : MonoBehaviour
         {
             platforms.Add(platform.GetComponent<Platform>());
         }
+    }
+
+    void TimeUntilNewDay()
+    {
+        Debug.Log("...");
+        seconds++;
+
+        if (seconds % 10 == 0) playerMoney.currency.changeCryptoValue();
     }
 
 }

@@ -20,11 +20,13 @@ public class Platform : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Sprite[] imageIndexes;
     [SerializeField] private GameObject waterEffect;
+    [SerializeField] private GameObject obstacle;
+
 
     private Vector3 initPositionWater;
     private Vector3 initScaleWater;
 
-
+    RaycastHit2D obstacleHit; 
     private void Start()
     {
         levelOfRisk = Random.Range(1, 99);
@@ -40,19 +42,30 @@ public class Platform : MonoBehaviour
     private void Update()
     {
         RayHitBuiding();
+
+        if (Input.GetKeyDown(KeyCode.L)) NewDay();
+        obstacleHit = Physics2D.Raycast(transform.position, Vector3.zero, 0f);
+        if (obstacleHit.collider.tag != "Obstacle") platformType = Type.Normal; 
     }
 
     public void NewDay()
     {
-        if (levelOfStability != 7 && levelOfRisk - (levelOfStability * 2) >= Random.Range(0, 100))
+        if (levelOfStability != 7 && levelOfRisk - (levelOfStability * 2) >= Random.Range(0, 100) && platformType != Type.Dangerous)
         {
             platformType = Type.Dangerous;
+            Vector3 obstaclePosition = new Vector3(transform.position.x, transform.position.y, transform.position.z - 0.01f);
+            Instantiate(obstacle, obstaclePosition, Quaternion.identity);
+
             SpriteRenderer m_SpriteRenderer = GetComponent<SpriteRenderer>();
             m_SpriteRenderer.color = Color.red;
         }
         else levelOfRisk += Random.Range(1, 50) - (levelOfStability * 3);
 
-        if (levelOfRisk > 100) Destroy(this.gameObject);
+        if (levelOfRisk > 100)
+        {
+            if (obstacleHit.collider.tag == "Obstacle") Destroy(obstacleHit.collider.gameObject);
+            Destroy(this.gameObject);
+        }
     }
 
     void RayHitBuiding()
@@ -67,7 +80,7 @@ public class Platform : MonoBehaviour
         RaycastHit2D upHit = Physics2D.Raycast(upVector, Vector3.zero, 0f);
         RaycastHit2D downHit = Physics2D.Raycast(downVector, Vector3.zero, 0f);
 
-
+       
         if (rightHit.collider == null && downHit.collider == null) spriteRenderer.sprite = imageIndexes[2];
         else if (leftHit.collider == null && downHit.collider == null) spriteRenderer.sprite = imageIndexes[1];
         else spriteRenderer.sprite = imageIndexes[0];
@@ -116,7 +129,11 @@ public class Platform : MonoBehaviour
         m_SpriteRenderer.color = color;
         platformType = type;
         playerMoney.currency.quantity -= 0.01f; 
+    }
 
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        Debug.Log("Debuger Stay; " + collision.gameObject);
     }
 
 }

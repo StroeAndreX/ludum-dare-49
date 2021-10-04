@@ -155,6 +155,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 51a41db9526534731967b904ab65af11, type: 3}
   - {fileID: 21300000, guid: 7aea6e1bda5654efe8ec05c381c9066e, type: 3}
   waterEffect: {fileID: 7251302391305319814}
+  obstacle: {fileID: 4324471231062226932, guid: 1325fd9770d5e4ab3b9361a3899daa7d, type: 3}
 --- !u!1 &2074463860075196294
 GameObject:
   m_ObjectHideFlags: 0

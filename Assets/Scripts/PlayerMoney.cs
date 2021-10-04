@@ -13,6 +13,8 @@ public class PlayerMoney : MonoBehaviour
     [SerializeField] private GameObject options;
     private GameObject createOptions;
 
+    public float currentMoney = 0f; 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,7 +25,7 @@ public class PlayerMoney : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(currency.conversion());
+        currentMoney = currency.conversion();
 
         if (Input.GetKeyDown(KeyCode.Q)) currency.changeCryptoValue();
         if (Input.GetKeyDown(KeyCode.P)) transformPlatform();
@@ -54,6 +56,11 @@ public class PlayerMoney : MonoBehaviour
             options.SetActive(false);
             Destroy(createOptions);
         }
+    }
+
+    public void buyThings(float cost)
+    {
+        currency.quantity -= (cost / currency.crypto_value);
     }
 
     public void transformPlatform()

@@ -36,6 +36,19 @@ public class PlayerMovements : MonoBehaviour
 
         // Player Attack
         if(Input.GetKeyDown(KeyCode.X)) Instantiate(playerBullet, transform.position, Quaternion.identity);
+
+        if(sittingPlatform != null && sittingPlatform.tag == "Platform")
+        {
+            // PowerUp Platform
+            powerUpPlatform();
+
+            // Repair platform
+            repairPlatform(); 
+        }
+        else if(sittingPlatform != null && sittingPlatform.tag == "Homebase")
+        {
+
+        }
     }
 
     bool RayHitWithPlatform() {
@@ -54,6 +67,51 @@ public class PlayerMovements : MonoBehaviour
         else return false;
     }
 
+    private void repairPlatform()
+    {
+        Platform platform = sittingPlatform.GetComponent<Platform>();
+        PlayerMoney playerMoney = this.GetComponent<PlayerMoney>();
+
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            platform.levelOfRisk -= 20;
+            if (platform.levelOfRisk < 0) platform.levelOfRisk = 0;
+
+
+            playerMoney.buyThings(0.25f);
+        }
+    }
+
+    private void powerUpPlatform()
+    {
+        Platform platform = sittingPlatform.GetComponent<Platform>();
+        PlayerMoney playerMoney = this.GetComponent<PlayerMoney>();
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            platform.levelOfStability++;
+
+            playerMoney.buyThings(0.50f * platform.levelOfStability) ;
+        }
+    }
+
+    private void purifyHomebase()
+    {
+        HomeBase homeBase = sittingPlatform.GetComponent<HomeBase>();
+        PlayerMoney playerMoney = this.GetComponent<PlayerMoney>();
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            homeBase.
+        }
+        
+    }
+
+    private void levelUpHomebase()
+    {
+        HomeBase homeBase = sittingPlatform.GetComponent<HomeBase>();
+        PlayerMoney playerMoney = this.GetComponent<PlayerMoney>();
+    }
     
 }
 

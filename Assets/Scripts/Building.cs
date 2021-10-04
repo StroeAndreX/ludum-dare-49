@@ -5,6 +5,7 @@ using UnityEngine;
 public class Building : MonoBehaviour
 {
     PlayerMovements pMove = new PlayerMovements();
+    PlayerMoney pMoney = new PlayerMoney();
     public GameObject buildPlatform; 
     float unit = 2f;
 
@@ -18,7 +19,8 @@ public class Building : MonoBehaviour
         prePlatform = Instantiate(prePlatform, newPlatformPosition, Quaternion.identity);
 
         GameObject playerObject = GameObject.Find("player");
-        pMove = playerObject.GetComponent<PlayerMovements>(); 
+        pMove = playerObject.GetComponent<PlayerMovements>();
+        pMoney = playerObject.GetComponent<PlayerMoney>(); 
     }
 
     // Update is called oncPlayerMovementse per frame
@@ -32,6 +34,7 @@ public class Building : MonoBehaviour
             {
                 Vector3 newBuild = new Vector3(pMove.sittingPlatform.transform.position.x + (unit * newPlatformPosition.x), pMove.sittingPlatform.transform.position.y + (unit * newPlatformPosition.y), 0f);
                 Instantiate(buildPlatform, newBuild, Quaternion.identity);
+                pMoney.buyThings(0.1f);
 
                 resetBuilding();
             }
