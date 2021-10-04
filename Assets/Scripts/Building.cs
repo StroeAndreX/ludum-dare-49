@@ -30,7 +30,7 @@ public class Building : MonoBehaviour
 
         if(build)
         {
-            if (Input.GetKeyDown(KeyCode.B))
+            if (Input.GetKeyDown(KeyCode.B) && pMoney.currency.conversion() > 0.1f)
             {
                 Vector3 newBuild = new Vector3(pMove.sittingPlatform.transform.position.x + (unit * newPlatformPosition.x), pMove.sittingPlatform.transform.position.y + (unit * newPlatformPosition.y), 0f);
                 Instantiate(buildPlatform, newBuild, Quaternion.identity);

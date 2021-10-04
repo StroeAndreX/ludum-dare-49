@@ -28,12 +28,14 @@ public class PlayerAttack : MonoBehaviour
 
     private void Update()
     {
+        if (enemy == null) Destroy(this.gameObject);
         ArcMove(transform.position, enemy.position, 1f);
     }
 
     Transform GetClosestEnemy()
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Obstacle");
+        if (enemies.Length <= 0) return null; 
 
         Transform tMin = null;
         float minDist = Mathf.Infinity;

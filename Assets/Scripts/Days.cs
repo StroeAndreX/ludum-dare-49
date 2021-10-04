@@ -12,11 +12,14 @@ public class Days : MonoBehaviour
     private List<Platform> platforms;
 
     // Days passed...
-    public int days = 0;
-    int seconds = 0;
+    public int nextToxicity = 0;
+    int secondsUntilCrypto = 0;
+    int secondsUntilToxicity = 0;
 
-    PlayerMoney playerMoney = new PlayerMoney(); 
-   
+    public int secondsRemain = 20; 
+
+    PlayerMoney playerMoney = new PlayerMoney();
+    private GameObject homeBaseObject;
 
     // Start is called before the first frame update
     void Start()
@@ -29,20 +32,22 @@ public class Days : MonoBehaviour
             platforms.Add(platform.GetComponent<Platform>());
             Debug.Log("ADD: " + platform.name);
         }
-
-        homeBase = GameObject.Find("HomeBase").GetComponent<HomeBase>();
+        homeBaseObject = GameObject.Find("HomeBase");
+        homeBase = homeBaseObject.GetComponent<HomeBase>();
   
-        InvokeRepeating("TimeUntilNewDay", 1f, 1f);  //1s delay, repeat every 1s
-     
+        InvokeRepeating("CryptoChange", 1f, 1f);  //1s delay, repeat every 1s
+        InvokeRepeating("ToxicityChange", 1f, 1f);  //1s delay, repeat every 1s
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.X))
-        {
-            nextDay(); 
-        }
+        //if(Input.GetKeyDown(KeyCode.X))
+        //{
+        //    nextDay(); 
+        //}
     }
 
 
@@ -50,14 +55,18 @@ public class Days : MonoBehaviour
     private void nextDay()
     {
         updateList();
-        days++; 
         foreach (Platform platform in platforms)
         {
-        //    platform.NewDay();
-            
+            platform.NewDay();       
         }
 
         homeBase.NextDay();
+
+        secondsRemain = Random.Range(15, 80);
+
+
+        GameObject player = GameObject.Find("player");
+        player.transform.position = new Vector3(homeBaseObject.transform.position.x, homeBaseObject.transform.position.y, player.transform.position.z - 3);
     }
 
     private void updateList()
@@ -70,13 +79,24 @@ public class Days : MonoBehaviour
         }
     }
 
-    void TimeUntilNewDay()
+    void CryptoChange()
     {
         Debug.Log("...");
-        seconds++;
+        secondsUntilCrypto++;
 
-        if (seconds % 10 == 0) playerMoney.currency.changeCryptoValue();
+        if (secondsUntilCrypto % 1.5 == 0) playerMoney.currency.changeCryptoValue();
     }
 
+
+    void ToxicityChange()
+    {
+        Debug.Log("...");
+        secondsRemain--;
+
+        if (secondsRemain <= 0) nextDay(); 
+    }
+
+
 }
+
 

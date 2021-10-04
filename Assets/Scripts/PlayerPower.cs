@@ -59,7 +59,7 @@ public class PlayerPower : MonoBehaviour
 
             if (Input.GetMouseButtonDown(0) && IsWalkableZone(hit))
             {
-                if (dist < 10.55f) transform.position = new Vector3(mousePos.x, mousePos.y, 0f);
+                if (dist < 10.55f) transform.position = new Vector3(mousePos.x, mousePos.y, -2f);
                 Debug.Log("With great power comes great responsabilities");
             }
         }

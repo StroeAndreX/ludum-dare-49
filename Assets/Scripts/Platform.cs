@@ -31,7 +31,7 @@ public class Platform : MonoBehaviour
     {
         levelOfRisk = Random.Range(1, 99);
         playerMoney = GameObject.Find("player").GetComponent<PlayerMoney>();
-
+        transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + (transform.position.y / 10));
         spriteRenderer.sprite = imageIndexes[0];
 
 

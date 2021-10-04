@@ -3,21 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class MeCoin : MonoBehaviour
+public class SecondsDisplay : MonoBehaviour
 {
+    // Start is called before the first frame update
     [SerializeField] TextMeshProUGUI textMeshPro;
-    [SerializeField] PlayerMoney playerMoney = new PlayerMoney();
+    [SerializeField] Days days;
 
     // Start is called before the first frame update
     void Start()
     {
         textMeshPro = this.GetComponent<TextMeshProUGUI>();
-
+        days = GameObject.Find("Days").GetComponent<Days>(); 
     }
 
     // Update is called once per frame
     void Update()
     {
-        textMeshPro.text = "ByteCoin: " + playerMoney.currency.quantity; 
+        textMeshPro.text = days.secondsRemain.ToString();
     }
 }

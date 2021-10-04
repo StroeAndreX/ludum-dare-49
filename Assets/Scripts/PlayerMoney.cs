@@ -30,7 +30,7 @@ public class PlayerMoney : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q)) currency.changeCryptoValue();
         if (Input.GetKeyDown(KeyCode.P)) transformPlatform();
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !Input.GetKey(KeyCode.Z))
         {
             Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             RaycastHit2D mouseHit = Physics2D.Raycast(worldPosition, Vector3.zero);
