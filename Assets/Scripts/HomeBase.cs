@@ -12,6 +12,19 @@ public class HomeBase : MonoBehaviour
 
     private float purificationPrice = 10f;
 
+    /// <summary>
+    ///  Sprite / Graphics
+    /// </summary>
+
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private Sprite[] imageIndexes; 
+
+
+    private void Start()
+    {
+        spriteRenderer.sprite = imageIndexes[0];
+    }
+
     void DebugDisplay()
     {
         Debug.Log("Toxicity: " + levelOfToxicity.ToString());
@@ -43,6 +56,11 @@ public class HomeBase : MonoBehaviour
         {
             levelOfToxicity = 0f; 
         }
+
+        if (homebaseLevel <= 2) spriteRenderer.sprite = imageIndexes[0];
+        else if(homebaseLevel > 2 && homebaseLevel <= 4) spriteRenderer.sprite = imageIndexes[1];
+        else spriteRenderer.sprite = imageIndexes[2];
+
     }
 
     public void NextDay()
@@ -50,5 +68,7 @@ public class HomeBase : MonoBehaviour
         IncrementToxicity();
         SetPurificationPrice();
     }
+
+  
 }
 

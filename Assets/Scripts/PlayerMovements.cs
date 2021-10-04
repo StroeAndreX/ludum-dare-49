@@ -13,7 +13,11 @@ public class PlayerMovements : MonoBehaviour
     public int inputX { get; set; } 
     public int inputY { get; set; }
 
-    public GameObject sittingPlatform; 
+    public GameObject sittingPlatform;
+
+    // Player Attack
+    public GameObject playerBullet; 
+
 
     // Update is called once per frame
     void Update()
@@ -29,6 +33,9 @@ public class PlayerMovements : MonoBehaviour
         Debug.Log(inputX);
         movement = new Vector3(speed * inputX, speed * inputY, 0);
         if (RayHitWithPlatform()) transform.position += movement * Time.deltaTime;
+
+        // Player Attack
+        if(Input.GetKeyDown(KeyCode.X)) Instantiate(playerBullet, transform.position, Quaternion.identity);
     }
 
     bool RayHitWithPlatform() {
