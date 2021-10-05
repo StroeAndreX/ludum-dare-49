@@ -21,6 +21,7 @@ public class RepairCost : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        pMove = GameObject.Find("player").GetComponent<PlayerMovements>();
         if (pMove.sittingPlatform.tag != null && pMove.sittingPlatform.tag == "Platform")
         {
             Platform platform = pMove.sittingPlatform.GetComponent<Platform>();

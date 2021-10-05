@@ -24,7 +24,8 @@ public class PowerUpCost : MonoBehaviour
         if (pMove.sittingPlatform.tag != null && pMove.sittingPlatform.tag == "Platform")
         {
             Platform platform = pMove.sittingPlatform.GetComponent<Platform>();
-            textMeshPro.text = (0.50f * platform.levelOfStability).ToString("0.00") + "$";
+            float price = (platform.levelOfStability + 1) * 0.50f; 
+            textMeshPro.text = (price).ToString("0.00") + "$";
         }
 
         if (pMove.sittingPlatform.tag != null && pMove.sittingPlatform.tag == "Homebase")

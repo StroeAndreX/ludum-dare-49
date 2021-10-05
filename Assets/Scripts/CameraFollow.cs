@@ -15,6 +15,23 @@ public class CameraFollow : MonoBehaviour
         Vector3 smoothTransform = Vector3.Lerp(transform.position, cameraPosition, smoothSpeed * Time.deltaTime);
         transform.position = smoothTransform;
     }
+    private float horizontalResolution = Screen.width;
 
+    // Start is called before the first frame update
+    void Start()
+    {
+        QualitySettings.vSyncCount = 2;
+        Application.targetFrameRate = 60;
+    }
+
+    // Update is called once per frame 
+    // TODO: Fix with a better code. -- Unnecessary code and conditions 
+    void Update()
+    {
+        QualitySettings.vSyncCount = 2;
+        Application.targetFrameRate = 60;
+
+        Screen.SetResolution(1920, 1080, true, 60);
+    }
 
 }

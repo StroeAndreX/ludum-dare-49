@@ -7,6 +7,9 @@ TagManager:
   - Platform
   - Homebase
   - Enemy
+  - Obstacle
+  - Bullet
+  - NB
   layers:
   - Default
   - TransparentFX

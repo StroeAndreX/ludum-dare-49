@@ -23,13 +23,13 @@ public class Instability : MonoBehaviour
         if (pMove.sittingPlatform.tag != null && pMove.sittingPlatform.tag == "Platform")
         {
             Platform platform = pMove.sittingPlatform.GetComponent<Platform>();
-            textMeshPro.text = "Instability " + platform.levelOfRisk; 
+            textMeshPro.text = "Platform instability " + platform.levelOfRisk; 
         }
 
         if (pMove.sittingPlatform.tag != null && pMove.sittingPlatform.tag == "Homebase")
         {
-            HomeBase homeBase = pMove.sittingPlatform.GetComponent<HomeBase>();
-            textMeshPro.text = "Instability " + homeBase.levelOfToxicity; 
+            // HomeBase homeBase = pMove.sittingPlatform.GetComponent<HomeBase>();
+            textMeshPro.text = "Platform instability ??";
         }
     }
 }

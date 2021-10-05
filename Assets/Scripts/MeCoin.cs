@@ -18,6 +18,6 @@ public class MeCoin : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        textMeshPro.text = "ByteCoin: " + playerMoney.currency.quantity; 
+        textMeshPro.text = "ByteCoin: " + playerMoney.currency.quantity.ToString("0.00") + " (+" + (playerMoney.increaseMoney / 30f).ToString("0.00") + "/s)"; 
     }
 }

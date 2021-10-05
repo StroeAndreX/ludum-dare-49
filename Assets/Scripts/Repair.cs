@@ -10,8 +10,6 @@ public class Repair : MonoBehaviour
     [SerializeField] PlayerMoney playerMoney = new PlayerMoney();
     [SerializeField] PlayerMovements pMove = new PlayerMovements();
 
-
-
     // Start is called before the first frame update
     void Start()
     {

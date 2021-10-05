@@ -16,8 +16,8 @@ public class PlayerMovements : MonoBehaviour
     public GameObject sittingPlatform;
 
     // Player Attack
-    public GameObject playerBullet; 
-
+    public GameObject playerBullet;
+    private Platform sittingPlatformClass;
 
     // Update is called once per frame
     void Update()
@@ -45,7 +45,7 @@ public class PlayerMovements : MonoBehaviour
             // Repair platform
             repairPlatform(); 
         }
-        else if(sittingPlatform != null && sittingPlatform.tag == "Homebase")
+        else if(sittingPlatform != null && sittingPlatform.tag == "Homebase" )
       
         {
             // PowerUp HomeBase
@@ -54,6 +54,7 @@ public class PlayerMovements : MonoBehaviour
             // Repair HomeBase
             purifyHomebase();
         }
+
     }
 
     bool RayHitWithPlatform() {
@@ -130,7 +131,8 @@ public class PlayerMovements : MonoBehaviour
 
         }
     }
-    
+
+
 }
 
 

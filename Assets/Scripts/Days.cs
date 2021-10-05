@@ -16,7 +16,7 @@ public class Days : MonoBehaviour
     int secondsUntilCrypto = 0;
     int secondsUntilToxicity = 0;
 
-    public int secondsRemain = 20; 
+    public int secondsRemain = 30; 
 
     PlayerMoney playerMoney = new PlayerMoney();
     private GameObject homeBaseObject;
@@ -37,17 +37,16 @@ public class Days : MonoBehaviour
   
         InvokeRepeating("CryptoChange", 1f, 1f);  //1s delay, repeat every 1s
         InvokeRepeating("ToxicityChange", 1f, 1f);  //1s delay, repeat every 1s
-
-
+        InvokeRepeating("IncreaseMoney", 1f, 1f);  //1s delay, repeat every 1s
     }
 
     // Update is called once per frame
     void Update()
     {
-        //if(Input.GetKeyDown(KeyCode.X))
-        //{
+        // if(Input.GetKeyDown(KeyCode.L))
+        // {
         //    nextDay(); 
-        //}
+        // }
     }
 
 
@@ -62,7 +61,7 @@ public class Days : MonoBehaviour
 
         homeBase.NextDay();
 
-        secondsRemain = Random.Range(15, 80);
+        secondsRemain = Random.Range(15, 45);
 
 
         GameObject player = GameObject.Find("player");
@@ -96,6 +95,10 @@ public class Days : MonoBehaviour
         if (secondsRemain <= 0) nextDay(); 
     }
 
+    void IncreaseMoney()
+    {
+        playerMoney.currency.quantity += (playerMoney.increaseMoney / 30);
+    }
 
 }
 

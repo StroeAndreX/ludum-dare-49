@@ -13,12 +13,16 @@ public class PlayerMoney : MonoBehaviour
     [SerializeField] private GameObject options;
     private GameObject createOptions;
 
-    public float currentMoney = 0f; 
+    public float currentMoney = 0f;
+
+    public float increaseMoney = 0; 
+
+    [SerializeField] GameObject clickHere;
 
     // Start is called before the first frame update
     void Start()
     {
-        currency.quantity = 1;
+        currency.quantity = 50;
         pMove = this.GetComponent<PlayerMovements>(); 
     }
 
@@ -27,10 +31,7 @@ public class PlayerMoney : MonoBehaviour
     {
         currentMoney = currency.conversion();
 
-        if (Input.GetKeyDown(KeyCode.Q)) currency.changeCryptoValue();
-        if (Input.GetKeyDown(KeyCode.P)) transformPlatform();
-
-        if (Input.GetMouseButtonDown(0) && !Input.GetKey(KeyCode.Z))
+        if (Input.GetMouseButtonDown(0) && !Input.GetKey(KeyCode.Z)) 
         {
             Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             RaycastHit2D mouseHit = Physics2D.Raycast(worldPosition, Vector3.zero);
@@ -40,31 +41,49 @@ public class PlayerMoney : MonoBehaviour
                 if(mouseHit.collider.tag == "Platform")
                 {
                     selectedPlatform = mouseHit.collider.gameObject; 
+                    if(selectedPlatform.GetComponent<Platform>().platformType != Platform.Type.Normal) { return; } 
+
                     options.SetActive(true);
                     options.transform.position = new Vector3(selectedPlatform.transform.position.x, selectedPlatform.transform.position.y + 1f, options.transform.position.z); // Instantiate(createOptions, selectedPlatform.transform.position, Quaternion.identity); 
 
+                    Destroy(clickHere);
                     buyMode = true;
                 } 
             }
         }
 
-        if (Input.GetMouseButtonUp(0))
-        {
-            buyMode = false;
-            selectedPlatform = null;
-
-            options.SetActive(false);
-            Destroy(createOptions);
-        }
     }
+
+
+    public void ResetFunction()
+    {
+        //buyMode = false;
+        //selectedPlatform = null;
+
+        //options.SetActive(false);
+        //Destroy(createOptions);
+        Invoke("ResetFunctionCall", 0.01f);
+    }
+
+    public void ResetFunctionCall()
+    {
+        buyMode = false;
+        selectedPlatform = null;
+
+        options.SetActive(false);
+        Destroy(createOptions);
+    }
+
 
     public void buyThings(float cost)
     {
-        currency.quantity -= (cost / currency.crypto_value);
-    }
-
-    public void transformPlatform()
-    {
-        pMove.sittingPlatform.GetComponent<Platform>().TransformPlatform(Platform.Type.Mine);
+        if(currency.quantity > 0)
+        {
+            currency.quantity -= (cost / currency.crypto_value);
+        }
+        else
+        {
+            currency.quantity = 0; 
+        }
     }
 }

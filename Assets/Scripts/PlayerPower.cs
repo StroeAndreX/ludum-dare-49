@@ -8,6 +8,8 @@ public class PlayerPower : MonoBehaviour
     GameObject powerRadiusMouse;
     GameObject powerRadius;
 
+    private AudioSource _audioSource;
+
     private void Start()
     {
         // Find the PlayerObject
@@ -19,6 +21,8 @@ public class PlayerPower : MonoBehaviour
         lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
         lineRenderer.widthMultiplier = 0.02f;
         lineRenderer.positionCount = 2;
+
+        _audioSource = GetComponent<AudioSource>();
     }
 
 
@@ -54,12 +58,13 @@ public class PlayerPower : MonoBehaviour
             print("Distance to other: " + dist);
 
             /// Circle that follow the mouse
-            if(dist < 10.55f) powerRadiusMouse.transform.position = new Vector3(mousePos.x, mousePos.y, -.1f);
-            powerRadius.transform.position = new Vector3(transform.position.x, transform.position.y, -.09f);
+            if(dist < 10.74f) powerRadiusMouse.transform.position = new Vector3(mousePos.x, mousePos.y, transform.position.z);
+            powerRadius.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
 
             if (Input.GetMouseButtonDown(0) && IsWalkableZone(hit))
             {
-                if (dist < 10.55f) transform.position = new Vector3(mousePos.x, mousePos.y, -2f);
+                _audioSource.Play();
+                if (dist < 10.74f) transform.position = new Vector3(mousePos.x, mousePos.y, -2f);
                 Debug.Log("With great power comes great responsabilities");
             }
         }

@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Platform : MonoBehaviour
 {
-    public enum Type { Normal, Dangerous, Mine, Farm, Oil, House};
+    public enum Type { Farm, Mine, Oil, House, Normal, Dangerous};
 
     public int levelOfRisk = 10;
     public Type platformType = Type.Normal;
 
-    public int levelOfStability = 0; // 7: Max Stability. 
+    public int levelOfStability = 1; // 7: Max Stability. 
 
     private PlayerMoney playerMoney;
 
@@ -21,12 +21,22 @@ public class Platform : MonoBehaviour
     [SerializeField] private Sprite[] imageIndexes;
     [SerializeField] private GameObject waterEffect;
     [SerializeField] private GameObject obstacle;
+    [SerializeField] private GameObject productivity;
+
+    [SerializeField] private Sprite[] typeRenderer;
 
 
     private Vector3 initPositionWater;
     private Vector3 initScaleWater;
 
-    RaycastHit2D obstacleHit; 
+    RaycastHit2D obstacleHit;
+
+    private GameObject builtX;
+
+    /// GameObject canvas
+    public GameObject info;
+
+
     private void Start()
     {
         levelOfRisk = Random.Range(1, 99);
@@ -34,23 +44,31 @@ public class Platform : MonoBehaviour
         transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + (transform.position.y / 10));
         spriteRenderer.sprite = imageIndexes[0];
 
-
         initPositionWater = waterEffect.transform.position;
         initScaleWater = waterEffect.transform.localScale;
+
+        platformType = Type.Normal;
     }
 
     private void Update()
     {
+        obstacleHit = Physics2D.Raycast(transform.position, Vector3.zero);
         RayHitBuiding();
 
-        if (Input.GetKeyDown(KeyCode.L)) NewDay();
-        obstacleHit = Physics2D.Raycast(transform.position, Vector3.zero, 0f);
-        if (obstacleHit.collider.tag != "Obstacle") platformType = Type.Normal; 
+        if(platformType == Type.Dangerous && obstacleHit.collider.tag != "Obstacle") platformType = Type.Normal;
+        //if (obstacleHit.collider.tag != "Obstacle") platformType = Type.Normal;
+        if (obstacleHit.collider.tag == "Obstacle") platformType = Type.Dangerous; 
+    }
+    /// GameObject canvas
+    private void initializeCanvasWriting()
+    {
+         GameObject enemy = Instantiate(info, transform.position, Quaternion.identity) as GameObject;
+        enemy.transform.SetParent (GameObject.FindGameObjectWithTag("Canvas").transform, false);
     }
 
     public void NewDay()
     {
-        if (levelOfStability != 7 && levelOfRisk - (levelOfStability * 2) >= Random.Range(0, 100) && platformType != Type.Dangerous)
+        if (levelOfStability != 8 && levelOfRisk - (levelOfStability * 2) >= Random.Range(0, 100) && platformType == Type.Normal)
         {
             platformType = Type.Dangerous;
             Vector3 obstaclePosition = new Vector3(transform.position.x, transform.position.y, transform.position.z - 0.01f);
@@ -63,8 +81,9 @@ public class Platform : MonoBehaviour
 
         if (levelOfRisk > 100)
         {
-            if (obstacleHit.collider.tag == "Obstacle") Destroy(obstacleHit.collider.gameObject);
+            if (platformType == Type.Dangerous) Destroy(obstacleHit.collider.gameObject);
             Destroy(this.gameObject);
+            Destroy(obj_productivity);    
         }
     }
 
@@ -81,7 +100,7 @@ public class Platform : MonoBehaviour
         RaycastHit2D downHit = Physics2D.Raycast(downVector, Vector3.zero, 0f);
 
        
-        if (rightHit.collider == null && downHit.collider == null) spriteRenderer.sprite = imageIndexes[2];
+        if (rightHit.collider== null && downHit.collider == null) spriteRenderer.sprite = imageIndexes[2];
         else if (leftHit.collider == null && downHit.collider == null) spriteRenderer.sprite = imageIndexes[1];
         else spriteRenderer.sprite = imageIndexes[0];
 
@@ -92,9 +111,6 @@ public class Platform : MonoBehaviour
             waterEffect.transform.localScale = new Vector3(initScaleWater.x * -1f, initScaleWater.y, initScaleWater.z);
         }
 
-
-
-
         Debug.DrawRay(rightVector, Vector3.down, Color.red, 1.0f);
         Debug.DrawRay(leftVector, Vector3.down, Color.red, 1.0f);
         Debug.DrawRay(upVector, Vector3.down, Color.red, 1.0f);
@@ -102,38 +118,74 @@ public class Platform : MonoBehaviour
     }
 
 
-    public void TransformPlatform(Type type)
+        GameObject obj_productivity;
+    public void TransformPlatform(int index)
     {
-        Color color; 
-        switch(type)
+        SpriteRenderer newSpriteRenderer;
+        Vector3 productivityPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z - 0.01f);
+        this.gameObject.GetComponent<Platform>().platformType = (Type)index;
+
+        switch (index)
         {
-            case Platform.Type.Mine:
-                color = Color.black;
+            case (int)Type.Mine:
+                if(playerMoney.currency.conversion() > 0.6f)
+                {
+                    obj_productivity = Instantiate(productivity, productivityPosition, Quaternion.identity);
+                    newSpriteRenderer = obj_productivity.GetComponent<SpriteRenderer>();
+                    newSpriteRenderer.sprite = typeRenderer[index];
+                    playerMoney.increaseMoney += Random.Range(0.2f, 0.9f);
+                    playerMoney.buyThings(0.60f); 
+                }
                 break;
 
-            case Platform.Type.Farm:
-                color = Color.green;
+            case (int)Type.Farm:
+                if(playerMoney.currency.conversion() > 0.2f)
+                {
+                    obj_productivity = Instantiate(productivity, productivityPosition, Quaternion.identity);
+                    newSpriteRenderer = obj_productivity.GetComponent<SpriteRenderer>();
+                    newSpriteRenderer.sprite = typeRenderer[index];
+                    playerMoney.increaseMoney += Random.Range(0.8f, 2f);
+                    playerMoney.buyThings(0.20f);
+                }
+
                 break;
 
-            case Platform.Type.Oil:
-                color = Color.yellow;
+            case (int)Type.Oil:
+                if(playerMoney.currency.conversion() > 2.30f)
+                {
+                    obj_productivity = Instantiate(productivity, productivityPosition, Quaternion.identity);
+                    newSpriteRenderer = obj_productivity.GetComponent<SpriteRenderer>();
+                    newSpriteRenderer.sprite = typeRenderer[index];
+                    playerMoney.increaseMoney += Random.Range(1.6f, 7f);
+                    playerMoney.buyThings(2.30f);
+                }
+
+                break;
+
+            case (int)Type.House:
+                if(playerMoney.currency.conversion() > 7.20f)
+                {
+                    obj_productivity = Instantiate(productivity, productivityPosition, Quaternion.identity);
+                    newSpriteRenderer = obj_productivity.GetComponent<SpriteRenderer>();
+                    newSpriteRenderer.sprite = typeRenderer[index];
+
+                    playerMoney.increaseMoney += Random.Range(7f, 20f);
+                    playerMoney.buyThings(7.20f);
+                }
                 break;
 
             default:
-                color = Color.white;
                 break;
         }
 
-
-        SpriteRenderer m_SpriteRenderer = GetComponent<SpriteRenderer>();
-        m_SpriteRenderer.color = color;
-        platformType = type;
-        playerMoney.currency.quantity -= 0.01f; 
+        
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
         Debug.Log("Debuger Stay; " + collision.gameObject);
     }
+
+
 
 }

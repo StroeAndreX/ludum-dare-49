@@ -30,7 +30,7 @@ public class Building : MonoBehaviour
 
         if(build)
         {
-            if (Input.GetKeyDown(KeyCode.B) && pMoney.currency.conversion() > 0.1f)
+            if (Input.GetKeyDown(KeyCode.B) && pMoney.currency.conversion() > 0.3f)
             {
                 Vector3 newBuild = new Vector3(pMove.sittingPlatform.transform.position.x + (unit * newPlatformPosition.x), pMove.sittingPlatform.transform.position.y + (unit * newPlatformPosition.y), 0f);
                 Instantiate(buildPlatform, newBuild, Quaternion.identity);
@@ -54,17 +54,17 @@ public class Building : MonoBehaviour
 
 
         if (hit.collider != null) resetBuilding(); 
-        else configBuildingInfo();
+        else configBuildingInfo(hit);
     }
 
-    void configBuildingInfo()
+    void configBuildingInfo(RaycastHit2D hit)
     {
-        build = true;
-        newPlatformPosition = new Vector3(pMove.inputX, pMove.inputY, 0f);
-        
+            build = true;
+            newPlatformPosition = new Vector3(pMove.inputX, pMove.inputY, 0f);
 
-
-        Debug.Log("Hello World");
+            Debug.Log("Hello World");
+            
+     
     }
 
     void resetBuilding()

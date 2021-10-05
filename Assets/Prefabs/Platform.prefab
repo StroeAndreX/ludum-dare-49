@@ -156,6 +156,12 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 7aea6e1bda5654efe8ec05c381c9066e, type: 3}
   waterEffect: {fileID: 7251302391305319814}
   obstacle: {fileID: 4324471231062226932, guid: 1325fd9770d5e4ab3b9361a3899daa7d, type: 3}
+  productivity: {fileID: 5796358633665693367, guid: 93831c55c37aa415d83931e10335e2e8, type: 3}
+  typeRenderer:
+  - {fileID: 21300000, guid: 01876401fa44b4586b2616c3c1a5d370, type: 3}
+  - {fileID: 21300000, guid: c1f98c8a6757744a8b1bcea5f36742da, type: 3}
+  - {fileID: 21300000, guid: 3fafc67e5fb354926bbd9176de484ea9, type: 3}
+  - {fileID: 21300000, guid: e176323cee6ed42f7b6e592e9c21ba39, type: 3}
 --- !u!1 &2074463860075196294
 GameObject:
   m_ObjectHideFlags: 0

@@ -23,7 +23,7 @@ public class Leveling : MonoBehaviour
         if (pMove.sittingPlatform.tag != null && pMove.sittingPlatform.tag == "Platform")
         {
             Platform platform = pMove.sittingPlatform.GetComponent<Platform>();
-            textMeshPro.text = "Level " + platform.levelOfStability;
+            textMeshPro.text = "Platform Level " + platform.levelOfStability;
         }
 
         if (pMove.sittingPlatform.tag != null && pMove.sittingPlatform.tag == "Homebase")

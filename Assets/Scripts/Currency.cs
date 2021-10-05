@@ -8,6 +8,10 @@ public class Currency : MonoBehaviour
     public float crypto_value = 0.24f;
     public float percentuage = 0;
 
+    private void Update() {
+        Debug.Log(crypto_value);
+    }
+
     public void changeCryptoValue()
     {
         int generateProbability = Random.Range(0, 100);
@@ -15,12 +19,16 @@ public class Currency : MonoBehaviour
         if (generateProbability > 50)
         {
             percentuage = +Random.Range(0.05f, 0.2f);
-            crypto_value += crypto_value * percentuage;
+            crypto_value += (crypto_value * percentuage);
         }
         else
         {
             percentuage = -Random.Range(0.05f, 0.2f);
-            crypto_value += crypto_value * percentuage;
+            if(crypto_value > 0.10f)
+            {
+                crypto_value += (crypto_value * percentuage); 
+            }
+            if(crypto_value < 0) crypto_value = 0.10f;
         }
     }
 

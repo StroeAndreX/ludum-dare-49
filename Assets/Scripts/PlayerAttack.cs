@@ -9,12 +9,17 @@ public class PlayerAttack : MonoBehaviour
     private bool attack = false;
 
     Transform enemy;
+    private AudioSource _audioSource;
+    public AudioClip shot;
 
     // Start is called before the first frame update
     void Start()
     {
         _particleSystem = this.GetComponent<ParticleSystem>();
         enemy = GetClosestEnemy();
+
+        _audioSource = GetComponent<AudioSource>();
+        _audioSource.PlayOneShot(shot);
     }
 
     void ArcMove(Vector3 startPos, Vector3 targetPos, float arcHeight)
@@ -61,7 +66,8 @@ public class PlayerAttack : MonoBehaviour
     {
         if (other.tag == "Enemy" || other.tag == "Obstacle")
         {
-            foreach(GameObject bullet in GameObject.FindGameObjectsWithTag("Bullet")) Destroy(bullet);
+            //foreach(GameObject bullet in GameObject.FindGameObjectsWithTag("Bullet")) Destroy(bullet);
+            Destroy(GameObject.FindGameObjectWithTag("Bullet"));
             other.GetComponent<Obstacles>().hp -= Random.Range(3.3f, 30.5f);
         }
     }
